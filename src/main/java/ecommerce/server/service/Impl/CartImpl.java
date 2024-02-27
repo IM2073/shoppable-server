@@ -62,7 +62,13 @@ public class CartImpl implements CartService {
             throw new CustomException("Requested quantity exceeds available stock for product: " + product.getName(), 400);
         }
 
-        cartRepository.addCartItem(productId, userId, request.getQuantity());
+        // check if product already in cart or not
+        Optional<Cart> cartItem = cartRepository.getCartByUserAndProduct(productId, userId);
+        if (cartItem.isEmpty()) {
+            cartRepository.addCartItem(productId, userId, requestedQuantity);
+        } else {
+            cartRepository.updateQuantity(cartItem.get().getId(), requestedQuantity);
+        }
     }
 
     @Override

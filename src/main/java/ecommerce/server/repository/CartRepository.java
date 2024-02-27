@@ -19,8 +19,8 @@ public interface CartRepository extends JpaRepository<Cart, Integer> {
 
     @Transactional
     @Modifying
-    @Query(value = "INSERT INTO carts c (user_id, product_id, quantity) VALUES (:userId, :productId, :quantity)", nativeQuery = true)
-    void addCartItem(@Param("userId") Integer userId, @Param("productId") Integer productId, @Param("quantity") Integer quantity);
+    @Query(value = "INSERT INTO carts (user_id, product_id, quantity) VALUES (:userId, :productId, :quantity)", nativeQuery = true)
+    void addCartItem(@Param("productId") Integer productId, @Param("userId") Integer userId, @Param("quantity") Integer quantity);
 
     @Transactional
     @Modifying
@@ -28,12 +28,12 @@ public interface CartRepository extends JpaRepository<Cart, Integer> {
     void deleteCartItem(@Param("productId") Integer productId, @Param("userId") Integer userId);
 
     @Transactional
-    @Query(value = "SELECT * FROM carts s WHERE c.user_id = :userId and c.product_id = :productId", nativeQuery = true)
+    @Query(value = "SELECT * FROM carts c WHERE c.user_id = :userId and c.product_id = :productId", nativeQuery = true)
     Optional<Cart> getCartByUserAndProduct(@Param("productId") Integer productId, @Param("userId") Integer userId);
 
     @Transactional
     @Modifying
-    @Query(value = "UPDATE carts c SET c.quantity = :quantity WHERE c.id = :cartId", nativeQuery = true)
+    @Query(value = "UPDATE carts SET quantity = :quantity WHERE id = :cartId", nativeQuery = true)
     void updateQuantity(@Param("cartId") Integer cartId, @Param("quantity") Integer quantity);
 
     @Transactional

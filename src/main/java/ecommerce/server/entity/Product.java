@@ -20,7 +20,7 @@ public class Product {
     @Column(name="description")
     private String description;
 
-    @Column(name="image")
+    @Column(name="image_url")
     private String imageUrl;
 
     @Column(name="stock")

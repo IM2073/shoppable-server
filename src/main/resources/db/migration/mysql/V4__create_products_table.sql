@@ -12,5 +12,5 @@ CREATE TABLE products (
     FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-CREATE UNIQUE INDEX idx_category_id
+CREATE INDEX idx_category_id
 ON products (category_id);

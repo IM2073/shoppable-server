@@ -10,8 +10,8 @@ CREATE TABLE carts (
     FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-CREATE UNIQUE INDEX idx_user_id
+CREATE INDEX idx_user_id
 ON carts (user_id);
 
-CREATE UNIQUE INDEX idx_product_id
+CREATE INDEX idx_product_id
 ON carts (product_id);

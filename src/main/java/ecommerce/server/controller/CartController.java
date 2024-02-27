@@ -1,6 +1,7 @@
 package ecommerce.server.controller;
 
 import ecommerce.server.entity.Cart;
+import ecommerce.server.model.request.CartItemRequest;
 import ecommerce.server.service.CartService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
@@ -24,8 +25,20 @@ public class CartController {
     }
 
     @PostMapping("/{productId}")
-    public ResponseEntity addCartItem(@PathVariable Integer productId) {
-        cartService.addCartItem(productId);
+    public ResponseEntity<Object> addCartItem(@PathVariable Integer productId, @RequestBody CartItemRequest cartItemRequest) {
+        cartService.addCartItem(productId, cartItemRequest);
         return ResponseEntity.status(HttpStatus.OK).body("Item added to cart successfully");
+    }
+
+    @DeleteMapping("/{productId}")
+    public ResponseEntity<Object> deleteCartItem(@PathVariable Integer productId) {
+        cartService.deleteCartItem(productId);
+        return ResponseEntity.status(HttpStatus.OK).body("Item deleted from cart successfully");
+    }
+
+    @PutMapping("/{productId}")
+    public ResponseEntity<Object> updateQuantityItem(@PathVariable Integer productId, @RequestParam(required = true) String updateStatus) {
+        cartService.updateQuantityCartItem(productId, updateStatus);
+        return ResponseEntity.status(HttpStatus.OK).body("Quantity cart item updated successfully");
     }
 }

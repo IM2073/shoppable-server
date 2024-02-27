@@ -11,8 +11,8 @@ CREATE TABLE orders (
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-CREATE UNIQUE INDEX idx_user_id
+CREATE INDEX idx_user_id
 ON orders (user_id);
 
-CREATE UNIQUE INDEX idx_address_id
+CREATE INDEX idx_address_id
 ON orders (address_id);

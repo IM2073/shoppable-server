@@ -11,5 +11,5 @@ CREATE TABLE addresses (
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-CREATE UNIQUE INDEX idx_user_id
+CREATE INDEX idx_user_id
 ON addresses (user_id);

@@ -13,14 +13,13 @@ import java.util.Optional;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Integer> {
-
     @Transactional
-    @Query(value = "SELECT * FROM products p WHERE (:categoryId IS NULL OR p.category_id = :categoryId)", nativeQuery = true)
-    List<Product> getProducts(Integer categoryId);
+    @Query(value = "SELECT * FROM products WHERE (:categoryId IS NULL OR category_id = :categoryId) AND (:productName IS NULL OR LOWER(name) LIKE LOWER(concat('%', :productName, '%')))", nativeQuery = true)
+    List<Product> getProducts(@Param("categoryId") Integer categoryId, @Param("productName") String productName);
 
     @Transactional
     @Query(value = "SELECT * FROM products p WHERE p.id = :productId", nativeQuery = true)
-    Optional<Product> getProductDetail(Integer productId);
+    Optional<Product> getProductDetail(@Param("productId") Integer productId);
 
     @Transactional
     @Modifying

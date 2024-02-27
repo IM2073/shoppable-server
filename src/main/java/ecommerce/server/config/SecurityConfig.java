@@ -43,7 +43,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(req ->
                         req.requestMatchers(WHITE_LIST_URL)
                                 .permitAll()
-                                .requestMatchers(HttpMethod.GET, "/companies/**", "/jobs/**", "/job/**", "/company/**")
+                                .requestMatchers(HttpMethod.POST, "/register", "/login")
                                 .permitAll()
                                 .anyRequest()
                                 .authenticated()

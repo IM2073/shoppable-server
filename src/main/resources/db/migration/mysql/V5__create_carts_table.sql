@@ -7,3 +7,6 @@ CREATE TABLE carts (
     PRIMARY KEY (id),
     FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
+
+CREATE UNIQUE INDEX idx_userId
+ON carts (userId);

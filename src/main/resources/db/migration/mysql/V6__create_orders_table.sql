@@ -10,3 +10,9 @@ CREATE TABLE orders (
     FOREIGN KEY (addressId) REFERENCES addresses(id) ON DELETE CASCADE,
     FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
+
+CREATE UNIQUE INDEX idx_userId
+ON orders (userId);
+
+CREATE UNIQUE INDEX idx_addressId
+ON orders (addressId);

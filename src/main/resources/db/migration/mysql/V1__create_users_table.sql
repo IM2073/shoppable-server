@@ -3,7 +3,9 @@ CREATE TABLE users (
     email VARCHAR(20) UNIQUE,
     name VARCHAR(20),
     role VARCHAR(20),
+    password TEXT,
     dateIn TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     dateUp TIMESTAMP NULL DEFAULT NULL,
     PRIMARY KEY (id)
 );
+

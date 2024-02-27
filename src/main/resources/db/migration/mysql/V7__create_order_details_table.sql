@@ -9,3 +9,9 @@ CREATE TABLE orderDetails (
     FOREIGN KEY (productId) REFERENCES products(id) ON DELETE CASCADE,
     FOREIGN KEY (orderId) REFERENCES orders(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
+
+CREATE UNIQUE INDEX idx_productId
+ON orderDetails (productId);
+
+CREATE UNIQUE INDEX idx_orderId
+ON orderDetails (orderId);

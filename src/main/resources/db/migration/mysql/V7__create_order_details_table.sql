@@ -1,17 +1,17 @@
 CREATE TABLE orderDetails (
     id INT NOT NULL AUTO_INCREMENT,
-    productId INT NOT NULL,
-    orderId INT NOT NULL,
+    product_id INT NOT NULL,
+    order_id INT NOT NULL,
     amount INT NOT NULL,
-    dateIn TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    dateUp TIMESTAMP NULL DEFAULT NULL,
+    date_in TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    date_up TIMESTAMP NULL DEFAULT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (productId) REFERENCES products(id) ON DELETE CASCADE,
-    FOREIGN KEY (orderId) REFERENCES orders(id) ON DELETE CASCADE ON UPDATE CASCADE
+    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE,
+    FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-CREATE UNIQUE INDEX idx_productId
-ON orderDetails (productId);
+CREATE UNIQUE INDEX idx_product_id
+ON orderDetails (product_id);
 
-CREATE UNIQUE INDEX idx_orderId
-ON orderDetails (orderId);
+CREATE UNIQUE INDEX idx_order_id
+ON orderDetails (order_id);

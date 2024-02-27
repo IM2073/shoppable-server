@@ -1,18 +1,18 @@
 CREATE TABLE orders (
     id INT NOT NULL AUTO_INCREMENT,
-    addressId INT NOT NULL,
-    userId INT NOT NULL,
-    totalPrice INT NOT NULL,
+    address_id INT NOT NULL,
+    user_id INT NOT NULL,
+    total_price INT NOT NULL,
     status VARCHAR(10),
-    dateIn TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    dateUp TIMESTAMP NULL DEFAULT NULL,
+    date_in TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    date_up TIMESTAMP NULL DEFAULT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (addressId) REFERENCES addresses(id) ON DELETE CASCADE,
-    FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE
+    FOREIGN KEY (address_id) REFERENCES addresses(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-CREATE UNIQUE INDEX idx_userId
-ON orders (userId);
+CREATE UNIQUE INDEX idx_user_id
+ON orders (user_id);
 
-CREATE UNIQUE INDEX idx_addressId
-ON orders (addressId);
+CREATE UNIQUE INDEX idx_address_id
+ON orders (address_id);

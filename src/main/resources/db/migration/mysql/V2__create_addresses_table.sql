@@ -2,14 +2,14 @@ CREATE TABLE addresses (
     id INT NOT NULL AUTO_INCREMENT,
     city VARCHAR(20),
     state VARCHAR(20),
-    postalCode VARCHAR(6),
-    streetAddress VARCHAR(20),
-    userId INT NOT NULL,
-    dateIn TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    dateUp TIMESTAMP NULL DEFAULT NULL,
+    postal_code VARCHAR(6),
+    street_address VARCHAR(20),
+    user_id INT NOT NULL,
+    date_in TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    date_up TIMESTAMP NULL DEFAULT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-CREATE UNIQUE INDEX idx_userId
-ON addresses (userId);
+CREATE UNIQUE INDEX idx_user_id
+ON addresses (user_id);

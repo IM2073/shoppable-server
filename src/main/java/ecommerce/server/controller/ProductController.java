@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/products")
+@RequestMapping("/product")
 @SecurityRequirement(name="Bearer Authentication")
 public class ProductController {
     private final ProductService productService;

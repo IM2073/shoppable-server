@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/carts")
+@RequestMapping("/cart")
 @RequiredArgsConstructor
 @SecurityRequirement(name="Bearer Authentication")
 public class CartController {

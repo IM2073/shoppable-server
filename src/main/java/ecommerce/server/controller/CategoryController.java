@@ -15,7 +15,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/categories")
+@RequestMapping("/category")
 @SecurityRequirement(name="Bearer Authentication")
 @Slf4j
 public class CategoryController {

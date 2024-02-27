@@ -1,7 +1,7 @@
 package ecommerce.server.controller;
 
-import ecommerce.server.entity.Category;
 import ecommerce.server.entity.Product;
+import ecommerce.server.model.request.ProductRequest;
 import ecommerce.server.service.ProductService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
@@ -27,5 +27,12 @@ public class ProductController {
     public ResponseEntity<Product> getProductDetail(@PathVariable Integer productId) {
         Product product = productService.getProductDetail(productId);
         return ResponseEntity.status(HttpStatus.OK).body(product);
+    }
+
+    // TODO: admin only to add product
+    @PostMapping
+    public ResponseEntity<Object> addProduct(ProductRequest productRequest) {
+        productService.addProduct(productRequest);
+        return ResponseEntity.status(HttpStatus.OK).body("product added successfully");
     }
 }

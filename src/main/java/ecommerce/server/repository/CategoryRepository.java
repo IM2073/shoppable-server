@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Integer> {
@@ -20,4 +21,8 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
     @Transactional
     @Query(value = "SELECT id, name FROM categories", nativeQuery = true)
     List<Category> getAllCategories();
+
+    @Transactional
+    @Query(value = "SELECT * FROM categories WHERE :id = id", nativeQuery = true)
+    Optional<Category> getCategoryById(@Param("id") Integer id);
 }

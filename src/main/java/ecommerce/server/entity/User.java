@@ -13,7 +13,7 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue
     @Column(name = "id")
-    private UUID id;
+    private Integer id;
     @Column(name="email")
     private String email;
     @Column(name="name")

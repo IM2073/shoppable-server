@@ -1,6 +1,7 @@
 package ecommerce.server.entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -10,17 +11,22 @@ import java.util.UUID;
 
 @Entity
 @Table(name="users")
+@Data
 public class User implements UserDetails {
     @Id
     @GeneratedValue
     @Column(name = "id")
     private Integer id;
+
     @Column(name="email")
     private String email;
+
     @Column(name="name")
     private String name;
+
     @Column(name="password")
     private String password;
+
     @Column(name="role")
     private String role;
 

@@ -18,6 +18,6 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
     void addCategory(@Param("name") String name);
 
     @Transactional
-    @Query(value = "SELECT * FROM categories", nativeQuery = true)
+    @Query(value = "SELECT id, name FROM categories", nativeQuery = true)
     List<Category> getAllCategories();
 }

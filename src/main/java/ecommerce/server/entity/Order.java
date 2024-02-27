@@ -1,24 +1,27 @@
 package ecommerce.server.entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
+
 @Entity
 @Table(name="orders")
+@Data
 public class Order {
     @Id
     @Column(name="id")
     @GeneratedValue
     private Integer id;
 
-    @Column(name="addressId")
+    @Column(name="address_id")
     private Integer addressId;
 
     @Column(name="status")
     private String status;
 
-    @Column(name="userId")
+    @Column(name="user_id")
     private Integer userId;
 
-    @Column(name="totalPrice")
+    @Column(name="total_price")
     private Integer totalPrice;
 
 }

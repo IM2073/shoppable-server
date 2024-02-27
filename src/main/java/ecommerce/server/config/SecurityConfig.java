@@ -45,6 +45,8 @@ public class SecurityConfig {
                                 .permitAll()
                                 .requestMatchers(HttpMethod.POST, "/register", "/login")
                                 .permitAll()
+                                .requestMatchers(HttpMethod.GET, "/categories")
+                                .permitAll()
                                 .anyRequest()
                                 .authenticated()
                 )

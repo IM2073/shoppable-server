@@ -16,4 +16,7 @@ public class Category {
 
     @Column(name="name")
     private String name;
+
+    @Column(name="slug")
+    private String slug;
 }

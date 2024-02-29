@@ -2,6 +2,7 @@ package ecommerce.server.exception;
 
 import ecommerce.server.dto.CustomException;
 import ecommerce.server.model.response.ErrorMessageResponse;
+import io.jsonwebtoken.MalformedJwtException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
@@ -20,6 +21,13 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Object> handleMethodArgumentException(MethodArgumentNotValidException ex) {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
+                .body(ErrorMessageResponse.builder().message(ex.getMessage()).build());
+    }
+
+    @ExceptionHandler(MalformedJwtException.class)
+    public ResponseEntity<Object> handleJWTMalformedException(MalformedJwtException ex) {
+        return ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED)
                 .body(ErrorMessageResponse.builder().message(ex.getMessage()).build());
     }
 

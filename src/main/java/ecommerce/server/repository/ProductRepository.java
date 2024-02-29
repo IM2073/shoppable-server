@@ -14,8 +14,8 @@ import java.util.Optional;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Integer> {
     @Transactional
-    @Query(value = "SELECT * FROM products WHERE (:categoryId IS NULL OR category_id = :categoryId) AND (:productName IS NULL OR LOWER(name) LIKE LOWER(concat('%', :productName, '%')))", nativeQuery = true)
-    List<Product> getProducts(@Param("categoryId") Integer categoryId, @Param("productName") String productName);
+    @Query(value = "SELECT p.id, p.name, p.description, p.image_url, p.stock, p.price, p.category_id FROM products p JOIN categories c ON (c.id = p.category_id) WHERE (:categorySlug IS NULL OR LOWER(c.slug) LIKE LOWER(concat('%', :categorySlug, '%'))) AND (:productName IS NULL OR LOWER(p.name) LIKE LOWER(concat('%', :productName, '%')))", nativeQuery = true)
+    List<Product> getProducts(@Param("categorySlug") String categorySlug, @Param("productName") String productName);
 
     @Transactional
     @Query(value = "SELECT * FROM products p WHERE p.id = :productId", nativeQuery = true)
@@ -30,6 +30,8 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
                     @Param("imageUrl") String imageUrl,
                     @Param("stock") int stock,
                     @Param("price") double price,
-                    @Param("categoryId") Integer categoryId);
+                    @Param("categoryId") Integer categoryId
+                    );
+
 }
 

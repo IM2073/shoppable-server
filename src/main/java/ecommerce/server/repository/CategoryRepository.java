@@ -15,11 +15,11 @@ import java.util.Optional;
 public interface CategoryRepository extends JpaRepository<Category, Integer> {
     @Modifying
     @Transactional
-    @Query(value = "INSERT INTO categories (name) VALUES (:name)", nativeQuery = true)
-    void addCategory(@Param("name") String name);
+    @Query(value = "INSERT INTO categories (name, slug) VALUES (:name, :slug)", nativeQuery = true)
+    void addCategory(@Param("name") String name, @Param("slug") String slug);
 
     @Transactional
-    @Query(value = "SELECT id, name FROM categories", nativeQuery = true)
+    @Query(value = "SELECT id, name, slug FROM categories", nativeQuery = true)
     List<Category> getAllCategories();
 
     @Transactional

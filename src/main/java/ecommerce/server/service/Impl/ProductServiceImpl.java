@@ -10,7 +10,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.text.Normalizer;
 import java.util.List;
+import java.util.Locale;
+import java.util.regex.Pattern;
 
 @Service
 @RequiredArgsConstructor
@@ -18,9 +21,12 @@ import java.util.List;
 public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
+    private static final Pattern NONLATIN = Pattern.compile("[^\\w-]");
+    private static final Pattern WHITESPACE = Pattern.compile("[\\s]");
+
     @Override
-    public List<Product> getProducts(Integer categoryId, String productName) {
-        return productRepository.getProducts(categoryId, productName);
+    public List<Product> getProducts(String categorySlug, String productName) {
+        return productRepository.getProducts(categorySlug, productName);
     }
 
     @Override

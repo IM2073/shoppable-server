@@ -45,7 +45,7 @@ public class SecurityConfig {
                                 .permitAll()
                                 .requestMatchers(HttpMethod.POST, "/register", "/login")
                                 .permitAll()
-                                .requestMatchers(HttpMethod.GET, "/categories", "/products")
+                                .requestMatchers(HttpMethod.GET, "/category", "/product")
                                 .permitAll()
                                 .anyRequest()
                                 .authenticated()
@@ -55,7 +55,6 @@ public class SecurityConfig {
                                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 ).authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
-
         return http.build();
     }
 }

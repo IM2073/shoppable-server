@@ -1,6 +1,7 @@
 package ecommerce.server.service.Impl;
 
 import ecommerce.server.dto.CustomException;
+import ecommerce.server.dto.UserDataDto;
 import ecommerce.server.entity.User;
 import ecommerce.server.model.request.LoginRequest;
 import ecommerce.server.model.request.RegisterRequest;
@@ -39,19 +40,20 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public AuthenticationResponse login(LoginRequest request) {
+    public UserDataDto login(LoginRequest request) {
         // auth - check DB for user and password info
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 request.getEmail(),
                 request.getPassword()
         ));
 
-        Optional<User> user = userRepository.findByEmail(request.getEmail());
-        String jwtToken = jwtTokenUtil.generateToken(user.get());
-        return AuthenticationResponse.builder()
-                .username(user.get().getName())
-                .email(user.get().getEmail())
-                .token(jwtToken)
-                .build();
+        Optional<User> userOptional = userRepository.findByEmail(request.getEmail());
+        if (userOptional.isEmpty()) {
+            throw new CustomException("Invalid user / password", 403);
+        }
+
+        User user = userOptional.get();
+        String token = jwtTokenUtil.generateToken(user);
+        return UserDataDto.builder().username(user.getName()).email(user.getEmail()).token(token).build();
     }
 }

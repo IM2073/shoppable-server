@@ -18,8 +18,8 @@ import java.util.List;
 public class ProductController {
     private final ProductService productService;
     @GetMapping
-    public ResponseEntity<List<Product>> getAllProduct(@RequestParam(required = false) Integer categoryId, @RequestParam(required = false) String productName) {
-        List<Product> productList = productService.getProducts(categoryId, productName);
+    public ResponseEntity<List<Product>> getAllProduct(@RequestParam(required = false) String categorySlug, @RequestParam(required = false) String productName) {
+        List<Product> productList = productService.getProducts(categorySlug, productName);
         return ResponseEntity.status(HttpStatus.OK).body(productList);
     }
 

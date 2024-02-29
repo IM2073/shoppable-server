@@ -15,10 +15,6 @@ public class RegisterRequest {
     @Email(message = "Invalid email format")
     private String email;
 
-    @NotBlank(message = "Username is mandatory")
-    @NotNull(message = "Username is mandatory")
-    private String username;
-
     @NotBlank(message = "Password is mandatory")
     @NotNull(message = "Password is mandatory")
     private String password;

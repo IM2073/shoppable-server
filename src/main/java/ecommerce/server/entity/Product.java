@@ -1,8 +1,10 @@
 package ecommerce.server.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -31,4 +33,8 @@ public class Product {
 
     @Column(name="category_id")
     private Integer categoryId;
+
+    @OneToMany(mappedBy = "product")
+    @JsonIgnore
+    private List<Cart> carts;
 }

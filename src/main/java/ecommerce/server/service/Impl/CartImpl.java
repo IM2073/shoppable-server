@@ -8,12 +8,12 @@ import ecommerce.server.model.request.CartItemRequest;
 import ecommerce.server.repository.CartRepository;
 import ecommerce.server.repository.ProductRepository;
 import ecommerce.server.service.CartService;
+import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -27,7 +27,7 @@ public class CartImpl implements CartService {
     public List<Cart> getUserCart() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Integer userId = ((User)  authentication.getPrincipal()).getId();
-        return cartRepository.getUserCart(userId);
+        return cartRepository.findByUserId(userId);
     }
 
     @Override

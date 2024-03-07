@@ -27,7 +27,7 @@ public class CartImpl implements CartService {
     public List<Cart> getUserCart() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Integer userId = ((User)  authentication.getPrincipal()).getId();
-        return cartRepository.getUserCart(userId);
+        return cartRepository.findByUserId(userId);
     }
 
     @Override

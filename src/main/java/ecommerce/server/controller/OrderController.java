@@ -44,8 +44,8 @@ public class OrderController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> addOrder() {
-        orderService.addOrder();
+    public ResponseEntity<Object> addOrder(@RequestBody String sessionId) {
+        orderService.addOrder(sessionId);
         return ResponseEntity.status(HttpStatus.OK).body("order created successful");
     }
 }

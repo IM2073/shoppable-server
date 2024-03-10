@@ -61,7 +61,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void addOrder() {
+    public void addOrder(String sessionId) {
+        if (sessionId == null) throw new CustomException("SessionId not found", 400);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Integer userId = ((User)  authentication.getPrincipal()).getId();
 

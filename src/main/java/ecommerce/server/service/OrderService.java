@@ -11,6 +11,6 @@ import java.util.List;
 public interface OrderService {
      List<Order> getOrders();
      List<OrderDetail> getOrderDetail(Integer orderId);
-     void addOrder();
+     void addOrder(String sessionId);
      Session createSession(List<CheckoutItemDto> checkoutItemDto) throws StripeException;
 }

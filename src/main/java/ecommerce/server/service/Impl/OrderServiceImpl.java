@@ -6,6 +6,8 @@ import com.stripe.model.checkout.Session;
 import com.stripe.param.checkout.SessionCreateParams;
 import ecommerce.server.dto.CheckoutItemDto;
 import ecommerce.server.dto.CustomException;
+import ecommerce.server.dto.OrderDetailDto;
+import ecommerce.server.dto.OrderDto;
 import ecommerce.server.entity.Cart;
 import ecommerce.server.entity.Order;
 import ecommerce.server.entity.OrderDetail;
@@ -39,25 +41,57 @@ public class OrderServiceImpl implements OrderService {
     private final OrderDetailRepository orderDetailRepository;
     private final CartRepository cartRepository;
     @Override
-    public List<Order> getOrders() {
+    public List<OrderDto> getOrders() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Integer userId = ((User)  authentication.getPrincipal()).getId();
-        return orderRepository.getUserOrders(userId);
+        List<Order> orderList = orderRepository.getUserOrders(userId);
+        List<OrderDto> orderDtoList = new ArrayList<>();
+
+        for (Order order: orderList) {
+            OrderDetail orderDetail = orderDetailRepository.findFirstByOrderIdOrderByDateInDesc(order.getId()).get();
+            orderDtoList.add(OrderDto.builder()
+                    .id(order.getId())
+                    .dateIn(orderDetail.getDateIn())
+                    .imageUrl(orderDetail.getProductOrder().getImageUrl())
+                    .status(order.getStatus())
+                    .totalPrice(order.getTotalPrice())
+                    .build());
+        }
+
+        return orderDtoList;
     }
 
     @Override
-    public List<OrderDetail> getOrderDetail(Integer orderId) {
+    public List<OrderDetailDto> getOrderDetail(Integer orderId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Integer userId = ((User)  authentication.getPrincipal()).getId();
 
-        Optional<List<OrderDetail>> orderDetail = orderDetailRepository.getOrderDetail(orderId);
+        // Retrieve the order details for the given orderId
+        List<OrderDetail> orderDetails = orderDetailRepository.findAllByOrderId(orderId);
+
+        // Retrieve the order of this particular id
         Optional<Order> order = orderRepository.getOrderById(orderId);
 
-        if (order.isEmpty() || orderDetail.isEmpty() || !Objects.equals(order.get().getUserId(), userId)) {
-            throw new CustomException("No order found", 404);
+        // check the userId is the assosciated one or not
+        if (order.isEmpty() || !Objects.equals(order.get().getUserId(), userId)) {
+            throw new CustomException("No orders found", 404);
         }
 
-        return orderDetail.get();
+        // Convert OrderDetail entities to DTOs
+        List<OrderDetailDto> orderDetailDTOs = new ArrayList<>();
+        for (OrderDetail orderDetail : orderDetails) {
+            orderDetailDTOs.add(
+                    OrderDetailDto.builder()
+                            .productOrder(orderDetail.getProductOrder())
+                            .quantity(orderDetail.getQuantity())
+                            .subtotal(orderDetail.getSubtotal())
+                            .dateIn(orderDetail.getDateIn())
+                            .order(orderDetail.getOrder())
+                            .build()
+            );
+        }
+
+        return orderDetailDTOs;
     }
 
     @Override

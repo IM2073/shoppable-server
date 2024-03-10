@@ -3,6 +3,8 @@ package ecommerce.server.controller;
 import com.stripe.exception.StripeException;
 import com.stripe.model.checkout.Session;
 import ecommerce.server.dto.CheckoutItemDto;
+import ecommerce.server.dto.OrderDetailDto;
+import ecommerce.server.dto.OrderDto;
 import ecommerce.server.entity.Order;
 import ecommerce.server.entity.OrderDetail;
 import ecommerce.server.model.response.StripeResponse;
@@ -24,15 +26,15 @@ public class OrderController {
     private final OrderService orderService;
     // get the user order
     @GetMapping
-    public ResponseEntity<List<Order>> getOrders() {
-        List<Order> orderList = orderService.getOrders();
+    public ResponseEntity<List<OrderDto>> getOrders() {
+        List<OrderDto> orderList = orderService.getOrders();
         return ResponseEntity.status(HttpStatus.OK).body(orderList);
     }
 
     // get the order details by orderId and userId
     @GetMapping("/{orderId}")
-    public ResponseEntity<List<OrderDetail>> getOrderDetail(@PathVariable Integer orderId) {
-        List<OrderDetail> orderDetailList = orderService.getOrderDetail(orderId);
+    public ResponseEntity<List<OrderDetailDto>> getOrderDetail(@PathVariable Integer orderId) {
+        List<OrderDetailDto> orderDetailList = orderService.getOrderDetail(orderId);
         return ResponseEntity.status(HttpStatus.OK).body(orderDetailList);
     }
 

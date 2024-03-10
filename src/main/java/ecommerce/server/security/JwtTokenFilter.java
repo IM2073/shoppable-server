@@ -35,9 +35,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
         // 2. Get jwt token and validate the token
         final String token = header.split(" ")[1].trim();
-        log.info(">>>>>>>>>>" +  token);
         String userEmail = jwtTokenUtil.extractUsername(token);
-        log.info(">>>>>>>>>>" +  token);
 
         // 4. if the token corresponds to a user in the db but the user currently is not authenticated yet, we want to update the security context
         if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {

@@ -14,8 +14,17 @@ import java.util.Optional;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Integer> {
     @Transactional
-    @Query(value = "SELECT p.id, p.name, p.description, p.image_url, p.stock, p.price, p.category_id FROM products p JOIN categories c ON (c.id = p.category_id) WHERE (:categorySlug IS NULL OR LOWER(c.slug) LIKE LOWER(concat('%', :categorySlug, '%'))) AND (:productName IS NULL OR LOWER(p.name) LIKE LOWER(concat('%', :productName, '%')))", nativeQuery = true)
-    List<Product> getProducts(@Param("categorySlug") String categorySlug, @Param("productName") String productName);
+    @Query(value = "SELECT p.id, p.name, p.description, p.image_url, p.stock, p.price, p.category_id FROM products p JOIN categories c ON (c.id = p.category_id) WHERE (:categorySlug IS NULL OR LOWER(c.slug) LIKE LOWER(concat('%', :categorySlug, '%'))) AND (:productName IS NULL OR LOWER(p.name) LIKE LOWER(concat('%', :productName, '%'))) AND stock > 0 LIMIT 12 OFFSET :offset", nativeQuery = true)
+    List<Product> getProducts(@Param("categorySlug") String categorySlug, @Param("productName") String productName, @Param("offset") int offset);
+
+    @Transactional
+    @Query(value = "SELECT COUNT(*) FROM products p JOIN categories c ON (c.id = p.category_id) WHERE (:categorySlug IS NULL OR LOWER(c.slug) LIKE LOWER(concat('%', :categorySlug, '%')));", nativeQuery = true)
+    Integer getTotalRows(@Param("categorySlug") String categorySlug);
+
+    @Transactional
+    @Modifying
+    @Query(value = "UPDATE products p SET p.stock = p.stock - :quantity WHERE p.id = :productId", nativeQuery = true)
+    void consumeProductStock(@Param("productId") Integer productId, @Param("quantity") Integer quantity);
 
     @Transactional
     @Query(value = "SELECT * FROM products p WHERE p.id = :productId", nativeQuery = true)

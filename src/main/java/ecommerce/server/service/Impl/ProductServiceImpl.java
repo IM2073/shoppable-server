@@ -1,6 +1,7 @@
 package ecommerce.server.service.Impl;
 
 import ecommerce.server.dto.CustomException;
+import ecommerce.server.dto.PaginationProductDto;
 import ecommerce.server.entity.Product;
 import ecommerce.server.model.request.ProductRequest;
 import ecommerce.server.repository.CategoryRepository;
@@ -11,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.text.Normalizer;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.regex.Pattern;
@@ -25,8 +27,16 @@ public class ProductServiceImpl implements ProductService {
     private static final Pattern WHITESPACE = Pattern.compile("[\\s]");
 
     @Override
-    public List<Product> getProducts(String categorySlug, String productName) {
-        return productRepository.getProducts(categorySlug, productName);
+    public PaginationProductDto getProducts(String categorySlug, String productName, Integer currPage) {
+        int offset = ((currPage == null ? 1: currPage) - 1) * 12;
+        int totalRows = productRepository.getTotalRows(categorySlug);
+        int totalPages = (int) Math.ceil((double) totalRows / 12);
+        List<Product> productList = productRepository.getProducts(categorySlug, productName, offset);
+
+        return PaginationProductDto.builder()
+                .product(productList)
+                .totalPages(totalPages)
+                .build();
     }
 
     @Override

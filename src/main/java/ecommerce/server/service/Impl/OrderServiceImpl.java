@@ -16,6 +16,7 @@ import ecommerce.server.model.request.CheckoutItemRequest;
 import ecommerce.server.repository.CartRepository;
 import ecommerce.server.repository.OrderDetailRepository;
 import ecommerce.server.repository.OrderRepository;
+import ecommerce.server.repository.ProductRepository;
 import ecommerce.server.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -40,6 +41,7 @@ public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final OrderDetailRepository orderDetailRepository;
     private final CartRepository cartRepository;
+    private final ProductRepository productRepository;
     @Override
     public List<OrderDto> getOrders() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -117,6 +119,7 @@ public class OrderServiceImpl implements OrderService {
         // insert to orderDetail
         for (Cart cart : cartList) {
             orderDetailRepository.addOrderDetail(cart.getProduct().getId(), orderId, cart.getQuantity(), cart.getQuantity() * cart.getProduct().getPrice());
+            productRepository.consumeProductStock(cart.getProduct().getId(), cart.getQuantity());
         }
 
         // delete cart

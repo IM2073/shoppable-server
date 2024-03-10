@@ -1,5 +1,6 @@
 package ecommerce.server.controller;
 
+import ecommerce.server.dto.PaginationProductDto;
 import ecommerce.server.entity.Product;
 import ecommerce.server.model.request.ProductRequest;
 import ecommerce.server.service.ProductService;
@@ -21,9 +22,9 @@ import java.util.List;
 public class ProductController {
     private final ProductService productService;
     @GetMapping
-    public ResponseEntity<List<Product>> getAllProduct(@RequestParam(required = false) String categorySlug, @RequestParam(required = false) String productName) {
-        List<Product> productList = productService.getProducts(categorySlug, productName);
-        return ResponseEntity.status(HttpStatus.OK).body(productList);
+    public ResponseEntity<PaginationProductDto> getAllProduct(@RequestParam(required = false) String categorySlug, @RequestParam(required = false) String productName, @RequestParam(required = false) Integer currPage) {
+        PaginationProductDto product = productService.getProducts(categorySlug, productName, currPage);
+        return ResponseEntity.status(HttpStatus.OK).body(product);
     }
 
     @GetMapping("/{productId}")

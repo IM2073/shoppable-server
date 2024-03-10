@@ -82,6 +82,7 @@ public class OrderServiceImpl implements OrderService {
         for (OrderDetail orderDetail : orderDetails) {
             orderDetailDTOs.add(
                     OrderDetailDto.builder()
+                            .id(orderDetail.getId())
                             .productOrder(orderDetail.getProductOrder())
                             .quantity(orderDetail.getQuantity())
                             .subtotal(orderDetail.getSubtotal())

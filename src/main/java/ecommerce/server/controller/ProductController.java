@@ -4,7 +4,9 @@ import ecommerce.server.entity.Product;
 import ecommerce.server.model.request.ProductRequest;
 import ecommerce.server.service.ProductService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/product")
 @SecurityRequirement(name="Bearer Authentication")
+@Slf4j
 public class ProductController {
     private final ProductService productService;
     @GetMapping
@@ -31,7 +34,8 @@ public class ProductController {
 
     // TODO: admin only to add product
     @PostMapping
-    public ResponseEntity<Object> addProduct(ProductRequest productRequest) {
+    public ResponseEntity<Object> addProduct(@Valid @RequestBody ProductRequest productRequest) {
+        log.info(productRequest.toString());
         productService.addProduct(productRequest);
         return ResponseEntity.status(HttpStatus.OK).body("product added successfully");
     }

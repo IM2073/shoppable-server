@@ -1,5 +1,6 @@
 package ecommerce.server.controller;
 
+import ecommerce.server.dto.CartDto;
 import ecommerce.server.entity.Cart;
 import ecommerce.server.model.request.CartItemRequest;
 import ecommerce.server.service.CartService;
@@ -19,15 +20,9 @@ public class CartController {
     private final CartService cartService;
 
     @GetMapping
-    public ResponseEntity<List<Cart>> getUserCart() {
-        List<Cart> carts = cartService.getUserCart();
+    public ResponseEntity<List<CartDto>> getUserCart() {
+        List<CartDto> carts = cartService.getUserCart();
         return ResponseEntity.status(HttpStatus.OK).body(carts);
-    }
-
-    @DeleteMapping
-    public ResponseEntity<Object> deleteCart() {
-        cartService.deleteUserCart();
-        return ResponseEntity.status(HttpStatus.OK).body("cart deleted successfully");
     }
 
     @PostMapping("/{productId}")

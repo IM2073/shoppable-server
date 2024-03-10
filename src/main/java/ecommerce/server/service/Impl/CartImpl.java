@@ -1,5 +1,6 @@
 package ecommerce.server.service.Impl;
 
+import ecommerce.server.dto.CartDto;
 import ecommerce.server.dto.CustomException;
 import ecommerce.server.entity.Cart;
 import ecommerce.server.entity.Product;
@@ -14,6 +15,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,10 +26,21 @@ public class CartImpl implements CartService {
     private final CartRepository cartRepository;
     private final ProductRepository productRepository;
     @Override
-    public List<Cart> getUserCart() {
+    public List<CartDto> getUserCart() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Integer userId = ((User)  authentication.getPrincipal()).getId();
-        return cartRepository.findByUserId(userId);
+        List<Cart> cartList = cartRepository.findByUserId(userId);
+        List<CartDto> cartDtoList = new ArrayList<>();
+
+        for (Cart cart : cartList) {
+            CartDto cartDto = new CartDto();
+            cartDto.setId(cart.getId());
+            cartDto.setProduct(cart.getProduct());
+            cartDto.setQuantity(cart.getQuantity());
+            cartDtoList.add(cartDto);
+        }
+
+        return cartDtoList;
     }
 
     @Override

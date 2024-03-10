@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class GlobalExceptionHandler {
     @ExceptionHandler(CustomException.class)
     public ResponseEntity<Object> handleCustomException(CustomException ex) {
+        log.info(ex.toString());
         return ResponseEntity.status(ex.getStatus()).body(ErrorMessageResponse.builder().message(ex.getMessage()).build());
     }
 

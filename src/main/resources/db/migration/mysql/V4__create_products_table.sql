@@ -1,6 +1,6 @@
 CREATE TABLE products (
     id INT NOT NULL AUTO_INCREMENT,
-    name VARCHAR(20) NOT NULL,
+    name VARCHAR(50) NOT NULL,
     description TEXT NOT NULL,
     image_url TEXT NOT NULL,
     stock INT NOT NULL,

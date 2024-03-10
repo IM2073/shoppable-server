@@ -34,8 +34,7 @@ public class ProductController {
 
     // TODO: admin only to add product
     @PostMapping
-    public ResponseEntity<Object> addProduct(@Valid @RequestBody ProductRequest productRequest) {
-        log.info(productRequest.toString());
+    public ResponseEntity<Object> addProduct(@RequestBody ProductRequest productRequest) {
         productService.addProduct(productRequest);
         return ResponseEntity.status(HttpStatus.OK).body("product added successfully");
     }

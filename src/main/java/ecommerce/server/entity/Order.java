@@ -1,7 +1,12 @@
 package ecommerce.server.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name="orders")
@@ -20,4 +25,11 @@ public class Order {
 
     @Column(name="total_price")
     private Integer totalPrice;
+
+    @Column(name="date_in")
+    private LocalDateTime dateIn;
+
+    @OneToOne(mappedBy = "order")
+    @JsonIgnore
+    private OrderDetail orderDetail;
 }

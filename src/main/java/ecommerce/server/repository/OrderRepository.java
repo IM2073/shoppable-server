@@ -24,7 +24,7 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
     @Transactional
     @Modifying
     @Query(value = "INSERT INTO orders (user_id, total_price, status) VALUES (:userId, :totalPrice, :status)", nativeQuery = true)
-    Integer addOrder(@Param("userId") Integer userId, @Param("totalPrice") Integer totalPrice, @Param("status") String status);
+    void addOrder(@Param("userId") Integer userId, @Param("totalPrice") Integer totalPrice, @Param("status") String status);
 
     @Query(value = "SELECT id FROM orders WHERE user_id = :userId ORDER BY id DESC LIMIT 1", nativeQuery = true)
     Integer getLastInsertedOrderIdForUser(@Param("userId") Integer userId);

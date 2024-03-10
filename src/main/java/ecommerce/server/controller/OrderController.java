@@ -1,10 +1,15 @@
 package ecommerce.server.controller;
 
+import com.stripe.exception.StripeException;
+import com.stripe.model.checkout.Session;
+import ecommerce.server.dto.CheckoutItemDto;
 import ecommerce.server.entity.Order;
 import ecommerce.server.entity.OrderDetail;
+import ecommerce.server.model.response.StripeResponse;
 import ecommerce.server.service.OrderService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +19,7 @@ import java.util.List;
 @RequestMapping("/order")
 @RequiredArgsConstructor
 @SecurityRequirement(name="Bearer Authentication")
+@Slf4j
 public class OrderController {
     private final OrderService orderService;
     // get the user order
@@ -30,10 +36,16 @@ public class OrderController {
         return ResponseEntity.status(HttpStatus.OK).body(orderDetailList);
     }
 
-    // put order - change the status of the order to paid after payment is done
-    @PutMapping("/{orderId}")
-    public ResponseEntity<Object> updateOrderStatus(@PathVariable Integer orderId) {
-        orderService.updateOrderStatus(orderId);
-        return ResponseEntity.status(HttpStatus.OK).body("Order status updated");
+    @PostMapping("/create-checkout-session")
+    public ResponseEntity<StripeResponse> checkoutList(@RequestBody List<CheckoutItemDto> checkoutItemDto) throws StripeException {
+        Session session = orderService.createSession(checkoutItemDto);
+        StripeResponse stripeResponse = new StripeResponse(session.getId(), session.getUrl());
+        return new ResponseEntity<StripeResponse>(stripeResponse,HttpStatus.OK);
+    }
+
+    @PostMapping
+    public ResponseEntity<Object> addOrder() {
+        orderService.addOrder();
+        return ResponseEntity.status(HttpStatus.OK).body("order created successful");
     }
 }

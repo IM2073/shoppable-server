@@ -18,6 +18,9 @@ public class OrderDetail {
     @Column(name="order_id")
     private Integer orderId;
 
-    @Column(name="amount")
-    private Integer amount;
+    @Column(name="quantity")
+    private Integer quantity;
+
+    @Column(name="subtotal")
+    private Integer subtotal;
 }

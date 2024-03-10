@@ -25,12 +25,6 @@ public class CartController {
         return ResponseEntity.status(HttpStatus.OK).body(carts);
     }
 
-    @DeleteMapping
-    public ResponseEntity<Object> deleteCart() {
-        cartService.deleteUserCart();
-        return ResponseEntity.status(HttpStatus.OK).body("cart deleted successfully");
-    }
-
     @PostMapping("/{productId}")
     public ResponseEntity<Object> addCartItem(@PathVariable Integer productId, @RequestBody CartItemRequest cartItemRequest) {
         cartService.addCartItem(productId, cartItemRequest);

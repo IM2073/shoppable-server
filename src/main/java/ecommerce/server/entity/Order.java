@@ -12,9 +12,6 @@ public class Order {
     @GeneratedValue
     private Integer id;
 
-    @Column(name="address_id")
-    private Integer addressId;
-
     @Column(name="status")
     private String status;
 
@@ -23,5 +20,4 @@ public class Order {
 
     @Column(name="total_price")
     private Integer totalPrice;
-
 }

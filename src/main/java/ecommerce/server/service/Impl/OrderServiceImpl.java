@@ -48,11 +48,12 @@ public class OrderServiceImpl implements OrderService {
         List<OrderDto> orderDtoList = new ArrayList<>();
 
         for (Order order: orderList) {
-            OrderDetail orderDetail = orderDetailRepository.findFirstByOrderIdOrderByDateInDesc(order.getId()).get();
+            Optional<List<OrderDetail>> orderDetail = orderDetailRepository.findAllByOrderId(order.getId());
+            if (orderDetail.isEmpty()) continue;
             orderDtoList.add(OrderDto.builder()
                     .id(order.getId())
-                    .dateIn(orderDetail.getDateIn())
-                    .imageUrl(orderDetail.getProductOrder().getImageUrl())
+                    .dateIn(orderDetail.get().get(0).getDateIn())
+                    .imageUrl(orderDetail.get().get(0).getProductOrder().getImageUrl())
                     .status(order.getStatus())
                     .totalPrice(order.getTotalPrice())
                     .build());
@@ -67,19 +68,19 @@ public class OrderServiceImpl implements OrderService {
         Integer userId = ((User)  authentication.getPrincipal()).getId();
 
         // Retrieve the order details for the given orderId
-        List<OrderDetail> orderDetails = orderDetailRepository.findAllByOrderId(orderId);
+        Optional<List<OrderDetail>> orderDetails = orderDetailRepository.findAllByOrderId(orderId);
 
         // Retrieve the order of this particular id
         Optional<Order> order = orderRepository.getOrderById(orderId);
 
         // check the userId is the assosciated one or not
-        if (order.isEmpty() || !Objects.equals(order.get().getUserId(), userId)) {
+        if (order.isEmpty() || !Objects.equals(order.get().getUserId(), userId) || orderDetails.isEmpty()) {
             throw new CustomException("No orders found", 404);
         }
 
         // Convert OrderDetail entities to DTOs
         List<OrderDetailDto> orderDetailDTOs = new ArrayList<>();
-        for (OrderDetail orderDetail : orderDetails) {
+        for (OrderDetail orderDetail : orderDetails.get()) {
             orderDetailDTOs.add(
                     OrderDetailDto.builder()
                             .id(orderDetail.getId())

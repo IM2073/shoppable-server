@@ -13,8 +13,7 @@ import java.util.Optional;
 
 @Repository
 public interface OrderDetailRepository extends JpaRepository<OrderDetail, Integer> {
-    Optional<OrderDetail> findFirstByOrderIdOrderByDateInDesc(Integer orderId);
-    List<OrderDetail> findAllByOrderId(Integer orderId);
+    Optional<List<OrderDetail>> findAllByOrderId(Integer orderId);
     @Transactional
     @Modifying
     @Query(value = "INSERT INTO order_details (product_id, order_id, quantity, subtotal) VALUES (:productId, :orderId, :quantity, :subtotal)", nativeQuery = true)

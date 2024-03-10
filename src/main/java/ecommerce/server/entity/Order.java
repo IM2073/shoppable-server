@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name="orders")
@@ -28,8 +29,4 @@ public class Order {
 
     @Column(name="date_in")
     private LocalDateTime dateIn;
-
-    @OneToOne(mappedBy = "order")
-    @JsonIgnore
-    private OrderDetail orderDetail;
 }

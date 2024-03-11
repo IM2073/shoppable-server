@@ -35,13 +35,4 @@ public class Product {
 
     @Column(name="category_id")
     private Integer categoryId;
-
-    @OneToMany(mappedBy = "product")
-    @JsonIgnore
-    private List<Cart> carts;
-
-    @OneToOne(mappedBy = "productOrder")
-    @JsonIgnore
-    private OrderDetail orderDetail;
-
 }

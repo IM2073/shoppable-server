@@ -16,7 +16,7 @@ public class OrderDetail {
     @Column(name="id")
     private Integer id;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="product_id")
     private Product productOrder;
 

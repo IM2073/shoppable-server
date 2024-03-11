@@ -39,4 +39,10 @@ public class ProductController {
         productService.addProduct(productRequest);
         return ResponseEntity.status(HttpStatus.OK).body("product added successfully");
     }
+
+    @GetMapping("/similar/{productId}")
+    public ResponseEntity<Object> getSimilarProduct(@PathVariable Integer productId) {
+        List<Product> product = productService.getSimilarProducts(productId);
+        return ResponseEntity.status(HttpStatus.OK).body(product);
+    }
 }

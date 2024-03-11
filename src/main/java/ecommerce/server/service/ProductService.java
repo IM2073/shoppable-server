@@ -10,4 +10,5 @@ public interface ProductService {
     PaginationProductDto getProducts(String categorySlug, String productName, Integer currPage);
     Product getProductDetail(Integer productId);
     void addProduct(ProductRequest productRequest);
+    List<Product> getSimilarProducts(Integer productId);
 }

@@ -42,5 +42,10 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
                     @Param("categoryId") Integer categoryId
                     );
 
+    @Transactional
+    @Modifying
+    @Query(value = "SELECT * FROM products p WHERE id != :productId AND category_id = :categoryId LIMIT 4", nativeQuery = true)
+    List<Product> getSimilarProducts(@Param("productId") Integer productId, @Param("categoryId") Integer categoryId);
+
 }
 

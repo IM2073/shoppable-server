@@ -15,6 +15,7 @@ import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.regex.Pattern;
 
 @Service
@@ -58,5 +59,11 @@ public class ProductServiceImpl implements ProductService {
                 productRequest.getPrice(),
                 productRequest.getCategoryId()
         );
+    }
+
+    @Override
+    public List<Product> getSimilarProducts(Integer productId) {
+        Product product = productRepository.getProductDetail(productId).orElseThrow(() -> new CustomException("Product id not found", 404));
+        return productRepository.getSimilarProducts(product.getId(), product.getCategoryId());
     }
 }

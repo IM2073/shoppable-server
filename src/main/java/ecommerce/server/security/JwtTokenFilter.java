@@ -27,7 +27,6 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         // 1. check the jwt token
         final String header = request.getHeader(HttpHeaders.AUTHORIZATION);
-        log.info(">>>>>>>>>>" +  header);
         if (header == null || !header.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
@@ -49,8 +48,6 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
             }
         }
-
-        log.info("test");
 
         // 5. pass to the next security filter chain
         filterChain.doFilter(request, response);
